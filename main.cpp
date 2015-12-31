@@ -62,13 +62,28 @@ if (option == 1){
   istringstream ss(itemList);
   string token;
 
+  // Add comment to file
+  myfile << "! Created with FO4ConsoleHelper\n";
+
   while(getline(ss, token, ',')) {
     myfile << "player.additem " << token << " " << itemAmount << "\n";
   }
   // Close the file since modifications are complete
   myfile.close();
 
-}
+  // Notify user
+  cout << "\nScript created!" << endl;
+  cout << "Move items.txt to Steam\\steamapps\\common\\Fallout 4" << endl;
+  cout << "To run the script, open Fallout 4 and while playing press ~ on your keyboard." << endl;
+  cout << "Then type: bat \"items.txt\" " << endl;
+  cout << "Make sure your item IDs are correct if there are any problems." << endl;
+
+  }
+
+  // Perk script creation
+  if (option == 2){
+
+  }
 
   return 0;
 }
