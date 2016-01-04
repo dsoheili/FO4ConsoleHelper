@@ -1,17 +1,0 @@
-! Created with FO4ConsoleHelper
-player.additem 00117eb9
-player.additem 000af0ee
-player.additem 000536c1
-player.additem 0007b9c7
-player.additem 0011d3c4
-player.additem 0007b9c4
-player.additem 000459c5
-player.additem 00023736 10
-player.additem 00023742 5
-player.additem 0000000a 5
-player.additem 0000000f 100
-player.additem 000ff21d
-player.additem 0022595f
-player.additem 00225aba
-player.additem 000c1897500 
-player.additem 0018796a

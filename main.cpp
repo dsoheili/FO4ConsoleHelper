@@ -8,7 +8,7 @@
 #include <utility>
 using namespace std;
 
-// A function to read a file and return a random line
+// Function to read a file and return a random line
 string getRandomID (string path){
   // read file
   ifstream the_file(path);
@@ -27,6 +27,7 @@ string getRandomID (string path){
   return lines[dis(gen)];
 }
 
+// Function to ranoly pick a weapon and its ammo
 pair<string, string> getRandomWeapon(){
   // read weapons file
   ifstream the_file("data/ammo/weapons.txt");
@@ -242,11 +243,13 @@ if (option == 1){
     myfile << "player.additem 0000000f 100\n"; // bottle caps x 100
     myfile << "player.additem " << utilityID << "\n";
 
-    int ammoAmount = 500;
+    string str;
+    // Remove the newline character to concatonate ammo amount
+    str = weaponAmmo.second.substr(0, weaponAmmo.second.size()-1);
 
     myfile << "player.additem " << meleeID << "\n";
     myfile << "player.additem " << weaponAmmo.first << "\n";
-    myfile << "player.additem " << weaponAmmo.second << ammoAmount << " \n";
+    myfile << "player.additem " << str << " 500" << " \n";
 
     if (fullHead == 1){
       myfile << "player.additem " << fullHeadID << "\n";
@@ -259,6 +262,7 @@ if (option == 1){
     // Close the file since modifications are complete
     myfile.close();
 
+    cout << str.size() << endl << endl;
     cout << "File generation complete!" << endl;
     cout << "Move kit.txt to Steam\\steamapps\\common\\Fallout 4" << endl;
     cout << "To run the script, open Fallout 4 and while playing press ~ on your keyboard." << endl;
