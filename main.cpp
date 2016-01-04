@@ -238,14 +238,16 @@ if (option == 1){
     // Remove \n character at the end of chemID to add amount
     string chemstr;
     chemstr = chemID.substr(0, chemID.size()-1);
+    string utilitystr;
+    utilitystr = utilityID.substr(0, utilityID.size()-1);
 
     myfile << "player.additem " << chemstr << " 3\n";
-    myfile << "player.additem 00023736 5\n"; // Stimpacks x 10
-    myfile << "player.additem 00023742 3\n"; // Radaway x 5
+    myfile << "player.additem 00023736 5\n"; // Stimpacks x 5
+    myfile << "player.additem 00023742 3\n"; // Radaway x 3
 
     myfile << "player.additem 0000000a 5\n"; // bobby pins x 5
     myfile << "player.additem 0000000f 100\n"; // bottle caps x 100
-    myfile << "player.additem " << utilityID << "\n";
+    myfile << "player.additem " << utilitystr << " 5\n";
 
     string str;
     // Remove the newline character to concatonate ammo amount
