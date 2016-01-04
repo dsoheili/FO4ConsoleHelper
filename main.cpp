@@ -235,9 +235,13 @@ if (option == 1){
     myfile << "player.additem " << rightLegID << "\n";
     myfile << "player.additem " << leftLegID << "\n";
 
-    myfile << "player.additem " << chemID << "\n";
-    myfile << "player.additem 00023736 10\n"; // Stimpacks x 10
-    myfile << "player.additem 00023742 5\n"; // Radaway x 5
+    // Remove \n character at the end of chemID to add amount
+    string chemstr;
+    chemstr = chemID.substr(0, chemID.size()-1);
+
+    myfile << "player.additem " << chemstr << " 3\n";
+    myfile << "player.additem 00023736 5\n"; // Stimpacks x 10
+    myfile << "player.additem 00023742 3\n"; // Radaway x 5
 
     myfile << "player.additem 0000000a 5\n"; // bobby pins x 5
     myfile << "player.additem 0000000f 100\n"; // bottle caps x 100
@@ -249,7 +253,7 @@ if (option == 1){
 
     myfile << "player.additem " << meleeID << "\n";
     myfile << "player.additem " << weaponAmmo.first << "\n";
-    myfile << "player.additem " << str << " 500" << " \n";
+    myfile << "player.additem " << str << " 250" << " \n";
 
     if (fullHead == 1){
       myfile << "player.additem " << fullHeadID << "\n";
@@ -262,8 +266,7 @@ if (option == 1){
     // Close the file since modifications are complete
     myfile.close();
 
-    cout << str.size() << endl << endl;
-    cout << "File generation complete!" << endl;
+    cout << "File generation complete!" << endl << endl;
     cout << "Move kit.txt to Steam\\steamapps\\common\\Fallout 4" << endl;
     cout << "To run the script, open Fallout 4 and while playing press ~ on your keyboard." << endl;
     cout << "Then type: bat \"kit.txt\" " << endl;
