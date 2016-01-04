@@ -3,13 +3,32 @@
 #include <string>
 #include <algorithm>
 #include <sstream>
+#include <random>
+#include <vector>
 using namespace std;
+
+string getRandomID (string path){
+  ifstream the_file(path);
+  vector<std::string> lines;
+  string current_line;
+
+  while (getline(the_file, current_line))
+    lines.push_back(current_line);
+
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(0, lines.size());
+
+  return lines[dis(gen)];
+}
+
 
 int main () {
 
   cout << "Welcome to the Fallout 4 Command Console Helper." << endl;
   cout << "This program helps you create scripts to run with the bat command on Fallout." << endl;
   cout << "The keyword 'item' is for item acquisition scripts, and 'perk' for perk addition." << endl;
+  cout << "To generate a starterkit use the keyword 'kit'." << endl;
   cout << "Please specify script type: ";
 
 // Prepare input variables
@@ -17,6 +36,7 @@ int main () {
   bool correctInput = false;
   string option1 = "item";
   string option2 = "perk";
+  string option3 = "kit";
   int option = 0;
   int itemAmount;
 
@@ -37,6 +57,12 @@ int main () {
       // Perk script selected
       option = 2;
       cout << "Perk script selected.\n" << endl;
+      correctInput = true;
+    }
+    else if (scriptType.compare(option3) == 0){
+      // Starterkit script selected
+      option = 3;
+      cout << "Starterkit generator selected.\n" << endl;
       correctInput = true;
     }
     else{
@@ -115,6 +141,14 @@ if (option == 1){
     cout << "Make sure your item IDs are correct if there are any problems." << endl;
   }
 
+  // Kit generator
+  // Consists of armor, health items, gun, ammunition, melee weapon, and utility
+  if (option == 3){
 
+  // read clothing IDs file
+  string testID;
+  testID = getRandomID("data/melee.txt");
+  cout << testID << endl;
+  }
   return 0;
 }
