@@ -5,21 +5,64 @@
 #include <sstream>
 #include <random>
 #include <vector>
+#include <utility>
 using namespace std;
 
+// A function to read a file and return a random line
 string getRandomID (string path){
+  // read file
   ifstream the_file(path);
   vector<std::string> lines;
   string current_line;
 
+  // pass each line to a vector
   while (getline(the_file, current_line))
     lines.push_back(current_line);
 
+  // randomly pick a value
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> dis(0, lines.size());
 
   return lines[dis(gen)];
+}
+
+pair<string, string> getRandomWeapon(){
+  // read weapons file
+  ifstream the_file("data/ammo/weapons.txt");
+  vector<std::string> lines;
+  string current_line;
+
+  // pass each line to a vector
+  while (getline(the_file, current_line))
+    lines.push_back(current_line);
+
+  // read weapons file
+  ifstream the_file2("data/ammo/ammunition.txt");
+  vector<std::string> lines2;
+  string current_line2;
+
+  // pass each line to a vector
+  while (getline(the_file2, current_line2))
+    lines2.push_back(current_line2);
+
+  // randomly pick a value
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(0, lines.size());
+
+  int lineIndex;
+  lineIndex = dis(gen);
+
+  return make_pair(lines[lineIndex], lines2[lineIndex]);
+}
+
+bool coinflip(){
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(0, 1);
+
+  return dis(gen);
 }
 
 
@@ -145,10 +188,80 @@ if (option == 1){
   // Consists of armor, health items, gun, ammunition, melee weapon, and utility
   if (option == 3){
 
-  // read clothing IDs file
-  string testID;
-  testID = getRandomID("data/melee.txt");
-  cout << testID << endl;
+    // Initialize strings
+    string clothingID, chestID, rightArmID, leftArmID, rightLegID, leftLegID,
+     chemID, meleeID, utilityID, gunID, ammoID;
+    bool fullHead;
+
+    cout << "Please wait, generating 'kit.txt'..." << endl;
+
+    // Get kit IDs
+    clothingID = getRandomID("data/armor/clothing.txt");
+    chestID = getRandomID("data/armor/chest.txt");
+    rightArmID = getRandomID("data/armor/rightArm.txt");
+    leftArmID = getRandomID("data/armor/leftArm.txt");
+    rightLegID = getRandomID("data/armor/rightLeg.txt");
+    leftLegID = getRandomID("data/armor/leftLeg.txt");
+    chemID = getRandomID("data/chem.txt");
+    meleeID = getRandomID("data/melee.txt");
+    utilityID = getRandomID("data/utility.txt");
+
+    // Flip a coin to see if player gets a full helmet or individual head gear pieces
+    fullHead = coinflip();
+    string fullHeadID, hatID, eyewearID, maskID;
+
+    if (fullHead == 1){
+      fullHeadID = getRandomID("data/armor/fullHead.txt");
+    }
+    else {
+      hatID = getRandomID("data/armor/hat.txt");
+      eyewearID = getRandomID("data/armor/eyewear.txt");
+      maskID = getRandomID("data/armor/mask.txt");
+    }
+
+    pair<string, string> weaponAmmo = getRandomWeapon();
+
+    // Create and open the file to write to
+    ofstream myfile;
+    myfile.open ("kit.txt");
+
+    // Add comment to file
+    myfile << "! Created with FO4ConsoleHelper\n";
+    myfile << "player.additem " << clothingID << "! clothing\n";
+    myfile << "player.additem " << chestID << "! chest armor\n";
+    myfile << "player.additem " << rightArmID << "! right arm armor\n";
+    myfile << "player.additem " << leftArmID << "! left arm armor\n";
+    myfile << "player.additem " << rightLegID << "! right leg armor\n";
+    myfile << "player.additem " << leftLegID << "! left leg armor\n";
+
+    myfile << "player.additem " << chemID << "! random chem\n";
+    myfile << "player.additem 00023736 10 ! stimpacks\n"; // Stimpacks x 10
+    myfile << "player.additem 00023742 5 ! radaway\n"; // Radaway x 5
+
+    myfile << "player.additem 0000000a 5 ! bobby pins\n"; // bobby pins x 5
+    myfile << "player.additem 0000000f 100 ! bottle caps\n"; // bottle caps x 100
+    myfile << "player.additem " << utilityID << "\n";
+
+    myfile << "player.additem " << meleeID << "\n";
+    myfile << "player.additem " << weaponAmmo.first << "\n";
+    myfile << "player.additem " << weaponAmmo.second << " 500\n";
+
+    if (fullHead == 1){
+      myfile << "player.additem " << fullHeadID << "! helmet\n";
+    }
+    else {
+      myfile << "player.additem " << hatID << "! hat\n";
+      myfile << "player.additem " << eyewearID << "! eyewear\n";
+      myfile << "player.additem " << maskID << "! mask\n";
+    }
+    // Close the file since modifications are complete
+    myfile.close();
+
+    cout << "File generation complete!" << endl;
+    cout << "Move kit.txt to Steam\\steamapps\\common\\Fallout 4" << endl;
+    cout << "To run the script, open Fallout 4 and while playing press ~ on your keyboard." << endl;
+    cout << "Then type: bat \"kit.txt\" " << endl;
+    cout << "Close the command console by pressing ~ again." << endl;
   }
   return 0;
 }
