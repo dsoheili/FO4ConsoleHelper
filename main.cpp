@@ -22,7 +22,7 @@ string getRandomID (string path){
   // randomly pick a value
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dis(0, lines.size());
+  std::uniform_int_distribution<> dis(0, (lines.size()-1));
 
   return lines[dis(gen)];
 }
@@ -49,7 +49,7 @@ pair<string, string> getRandomWeapon(){
   // randomly pick a value
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dis(0, lines.size());
+  std::uniform_int_distribution<> dis(0, (lines.size()-1));
 
   int lineIndex;
   lineIndex = dis(gen);
@@ -227,32 +227,34 @@ if (option == 1){
 
     // Add comment to file
     myfile << "! Created with FO4ConsoleHelper\n";
-    myfile << "player.additem " << clothingID << "! clothing\n";
-    myfile << "player.additem " << chestID << "! chest armor\n";
-    myfile << "player.additem " << rightArmID << "! right arm armor\n";
-    myfile << "player.additem " << leftArmID << "! left arm armor\n";
-    myfile << "player.additem " << rightLegID << "! right leg armor\n";
-    myfile << "player.additem " << leftLegID << "! left leg armor\n";
+    myfile << "player.additem " << clothingID << "\n";
+    myfile << "player.additem " << chestID << "\n";
+    myfile << "player.additem " << rightArmID << "\n";
+    myfile << "player.additem " << leftArmID << "\n";
+    myfile << "player.additem " << rightLegID << "\n";
+    myfile << "player.additem " << leftLegID << "\n";
 
-    myfile << "player.additem " << chemID << "! random chem\n";
-    myfile << "player.additem 00023736 10 ! stimpacks\n"; // Stimpacks x 10
-    myfile << "player.additem 00023742 5 ! radaway\n"; // Radaway x 5
+    myfile << "player.additem " << chemID << "\n";
+    myfile << "player.additem 00023736 10\n"; // Stimpacks x 10
+    myfile << "player.additem 00023742 5\n"; // Radaway x 5
 
-    myfile << "player.additem 0000000a 5 ! bobby pins\n"; // bobby pins x 5
-    myfile << "player.additem 0000000f 100 ! bottle caps\n"; // bottle caps x 100
+    myfile << "player.additem 0000000a 5\n"; // bobby pins x 5
+    myfile << "player.additem 0000000f 100\n"; // bottle caps x 100
     myfile << "player.additem " << utilityID << "\n";
+
+    int ammoAmount = 500;
 
     myfile << "player.additem " << meleeID << "\n";
     myfile << "player.additem " << weaponAmmo.first << "\n";
-    myfile << "player.additem " << weaponAmmo.second << " 500\n";
+    myfile << "player.additem " << weaponAmmo.second << ammoAmount << " \n";
 
     if (fullHead == 1){
-      myfile << "player.additem " << fullHeadID << "! helmet\n";
+      myfile << "player.additem " << fullHeadID << "\n";
     }
     else {
-      myfile << "player.additem " << hatID << "! hat\n";
-      myfile << "player.additem " << eyewearID << "! eyewear\n";
-      myfile << "player.additem " << maskID << "! mask\n";
+      myfile << "player.additem " << hatID << "\n";
+      myfile << "player.additem " << eyewearID << "\n";
+      myfile << "player.additem " << maskID << "\n";
     }
     // Close the file since modifications are complete
     myfile.close();
